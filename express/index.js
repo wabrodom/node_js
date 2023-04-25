@@ -2,6 +2,7 @@ import express from "express";
 import { fileURLToPath } from "url";
 import { dirname, sep } from "path";
 import compression from "compression";
+import { helloRouter } from "./routes/hello.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url)) + sep;
 const config = {
@@ -35,9 +36,9 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.render("message", { title: "hello world" });
 });
-app.get("/hello", (req, res) => {
-  res.render("message", { title: "Hello again" });
-});
+
+// use helloRouter middleware
+app.use("/hello", helloRouter);
 
 // ... (express.static('static')) is a middleware fn
 // app.use(express.static("static"));
