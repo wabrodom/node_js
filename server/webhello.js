@@ -3,6 +3,11 @@ const http = require("http");
 
 http
   .createServer((req, res) => {
+    if (req.url.includes("favicon.ico")) {
+      res.statusCode = 404;
+      res.end("not found");
+      return;
+    }
     console.log(req.url);
     const theUrl =
       req.url
