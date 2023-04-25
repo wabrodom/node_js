@@ -21,11 +21,8 @@ const app = express();
 app.disable("x-powered-by");
 
 app.use(compression());
-app.use((req, res) => {
-  res.status(404).send("Not found");
-});
 
-app.set("view engin", "ejs");
+app.set("view engine", "ejs");
 app.set("views", config.dir.views);
 
 // middleware 3 args, and always has next(), to be real middelware
@@ -36,15 +33,19 @@ app.use((req, res, next) => {
 
 // when app get req from (thisRoute, routingFuctionRun)
 app.get("/", (req, res) => {
-  res.send("Hello worldo!");
+  res.render("message", { title: "hello world" });
 });
 app.get("/hello", (req, res) => {
-  res.send("Hello again");
+  res.render("message", { title: "Hello again" });
 });
 
 // ... (express.static('static')) is a middleware fn
 // app.use(express.static("static"));
 app.use(express.static(config.dir.static));
+
+app.use((req, res) => {
+  res.status(404).render("message", { title: "Not found" });
+});
 
 // start server
 app.listen(config.port, () => {
